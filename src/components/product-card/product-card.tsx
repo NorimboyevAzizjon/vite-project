@@ -1,9 +1,13 @@
+import { Link } from "react-router-dom";
 import { ProductCardFooter } from "./product-card-footer";
 import { ProductRating } from "./product-ration";
 
 export const ProductCard = () => {
   return (
-    <div className="max-w-[232px] w-full hover:shadow-lg transition cursor-pointer rounded-xl">
+    <Link
+      to="/categories/id"
+      className="max-w-[232px] w-full hover:shadow-lg transition cursor-pointer rounded-xl"
+    >
       <img
         src="https://images.uzum.uz/cdb5a4rb3ho5lmur47kg/t_product_540_high.jpg#1725718457665"
         className="rounded-xl hover:rounded-b-none transition"
@@ -17,6 +21,6 @@ export const ProductCard = () => {
         <ProductRating />
         <ProductCardFooter />
       </div>
-    </div>
+    </Link>
   );
 };
