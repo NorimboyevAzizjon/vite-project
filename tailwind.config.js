@@ -4,9 +4,18 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: "12px"
+      padding: "12px",
+    },
+    animation: {
+      expandWidth: "expandWidth 300ms",
+    },
+    keyframes: {
+      expandWidth: {
+        "0%": { width: "0%" },
+        "100%": { width: "100%" },
+      },
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar-hide")],
 };
