@@ -5,7 +5,7 @@ import { ProductRating } from "./product-ration";
 export const ProductCard = () => {
   return (
     <Link
-      to="/categories/id"
+      to="/product/id"
       className="max-w-[232px] w-full hover:shadow-lg transition cursor-pointer rounded-xl"
     >
       <img

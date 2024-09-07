@@ -18,7 +18,11 @@ export default {
         "100%": { width: "100%" },
       },
     },
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#7000ff",
+      },
+    },
   },
   plugins: [require("tailwind-scrollbar-hide")],
 };
