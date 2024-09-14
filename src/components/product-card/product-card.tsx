@@ -1,25 +1,33 @@
 import { Link } from "react-router-dom";
 import { ProductCardFooter } from "./product-card-footer";
 import { ProductRating } from "./product-ration";
+import { IProduct } from "../../utils/interfaces/product.interface";
 
-export const ProductCard = () => {
+interface IProps {
+  product: IProduct;
+}
+
+export const ProductCard = ({ product }: IProps) => {
+  let productImage = product.images[0];
+  const isImageUrl = productImage.startsWith("https");
+
+  if (!isImageUrl) {
+    productImage = productImage.slice(2, -2);
+  }
+
   return (
     <Link
-      to="/product/id"
+      to={`/product/${product.id}`}
       className="max-w-[232px] w-full hover:shadow-lg transition cursor-pointer rounded-xl"
     >
       <img
-        src="https://images.uzum.uz/cdb5a4rb3ho5lmur47kg/t_product_540_high.jpg#1725718457665"
+        src={productImage}
         className="rounded-xl hover:rounded-b-none transition"
       />
       <div className="p-2 pt-3">
-        <p className="line-clamp-2 text-sm mt-2">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, ullam
-          voluptas! Ea inventore quia illum perspiciatis dolores facilis.
-          Assumenda, impedit.
-        </p>
+        <p className="line-clamp-2 text-sm mt-2">{product.description}</p>
         <ProductRating />
-        <ProductCardFooter />
+        <ProductCardFooter product={product} />
       </div>
     </Link>
   );

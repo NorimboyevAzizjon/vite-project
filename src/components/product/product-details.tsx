@@ -4,23 +4,27 @@ import { ProductQuantityInput } from "./product-quantity-input";
 import { ProductPrice } from "./product-price";
 import { ProductButtons } from "./product-buttons";
 import { ProductDescription } from "./product-description";
+import { IProduct } from "../../utils/interfaces/product.interface";
 
-export const ProductDetails = () => {
+interface IProps {
+  product: IProduct;
+}
+
+export const ProductDetails = ({ product }: IProps) => {
   const [productQuantity, setProductQuantity] = useState<number>(1);
+
   return (
     <div>
-      <p className="text-2xl">
-        Qo'goz sochiqlar Oila tanlovi, 2 qatlamli, 2 dona
-      </p>
+      <p className="text-2xl">{product.title}</p>
 
       <Divider className="my-3" />
       <ProductQuantityInput
         setValue={setProductQuantity}
         value={productQuantity}
       />
-      <ProductPrice />
+      <ProductPrice product={product} productQuantity={productQuantity} />
       <ProductButtons />
-      <ProductDescription />
+      <ProductDescription product={product} />
     </div>
   );
 };
