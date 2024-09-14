@@ -23,7 +23,7 @@ export const ProductDetails = ({ product }: IProps) => {
         value={productQuantity}
       />
       <ProductPrice product={product} productQuantity={productQuantity} />
-      <ProductButtons />
+      <ProductButtons product={product} quantity={productQuantity} />
       <ProductDescription product={product} />
     </div>
   );
