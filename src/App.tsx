@@ -4,12 +4,15 @@ import { Homepage } from "./pages/homepage";
 import { ProductPage } from "./pages/product-page";
 import { CartPage } from "./pages/cart-page";
 
+import Favorites from "./pages/favorites-page";
+
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Homepage />} />
       <Route path="/product/:productId" element={<ProductPage />} />
       <Route path="/cart" element={<CartPage />} />
+      <Route path="/favorites" element={<Favorites />} />
     </Routes>
   );
 }

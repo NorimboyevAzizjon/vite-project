@@ -1,8 +1,10 @@
+
+import { HeartIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { ProductCardFooter } from "./product-card-footer";
-import { ProductFavoriteButton } from "./product-favorite-button";
 import { ProductRating } from "./product-ration";
 import { IProduct } from "../../utils/interfaces/product.interface";
+import { useFavorites } from "../context/favorites.context";
 
 interface IProps {
   product: IProduct;
@@ -36,5 +38,25 @@ export const ProductCard = ({ product }: IProps) => {
         <ProductCardFooter product={product} />
       </div>
     </Link>
+  );
+};
+
+export const ProductFavoriteButton = ({ product }: IProps) => {
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const favorite = isFavorite(product);
+
+  return (
+    <button
+      type="button"
+      className={`w-10 h-10 rounded-full border flex items-center justify-center transition hover:bg-gray-100 ${favorite ? 'text-red-500' : 'text-gray-500'}`}
+      onClick={e => {
+        e.stopPropagation();
+        e.preventDefault();
+        toggleFavorite(product);
+      }}
+      aria-label="Saralash"
+    >
+      <HeartIcon className="w-6 h-6" fill={favorite ? 'currentColor' : 'none'} />
+    </button>
   );
 };

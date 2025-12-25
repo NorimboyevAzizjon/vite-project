@@ -17,7 +17,7 @@ export const HeaderLinks = () => {
       />
       <HeaderLink
         icon={<HeartIcon className="w-6 h-6" />}
-        link="/"
+        link="/favorites"
         title="Saralanganlar"
       />
       <div className="flex items-center">
