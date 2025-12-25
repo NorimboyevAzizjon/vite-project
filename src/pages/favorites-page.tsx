@@ -1,10 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { useFavorites } from "../components/context/favorites.context";
 import { ProductCard } from "../components/product-card/product-card";
 
 const Favorites: React.FC = () => {
-  const navigate = useNavigate();
   const { favorites } = useFavorites();
 
   return (
