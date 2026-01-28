@@ -1,20 +1,36 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
-import React, { useState } from "react";
+import { useState, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const SearchInput = () => {
   const [inputValue, setInputValue] = useState<string>("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
+    if (inputValue.trim()) {
+      toast.info(`"${inputValue}" bo'yicha qidiruv...`);
+      // TODO: Implement search page
+      // navigate(`/search?q=${encodeURIComponent(inputValue)}`);
+    }
+  };
+
   return (
-    <div className="border border-gray-300 flex  max-w-[507px] w-full rounded-md">
+    <form onSubmit={handleSearch} className="border border-gray-300 flex max-w-[507px] w-full rounded-md overflow-hidden">
       <input
         type="text"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         placeholder="Mahsulotlarni va turkumlarni izlash"
-        className=" px-4 py-2 flex-grow outline-none rounded-md"
+        className="px-4 py-2 flex-grow outline-none"
       />
-      <div className="px-5 py-2 bg-gray-300 flex items-center justify-center">
+      <button 
+        type="submit"
+        className="px-5 py-2 bg-primary text-white flex items-center justify-center hover:bg-primary/90 transition-colors"
+      >
         <MagnifyingGlassIcon className="w-5 h-5" />
-      </div>
-    </div>
+      </button>
+    </form>
   );
 };
