@@ -20,6 +20,8 @@ export const CartItems = () => {
   const { cart } = useCartContext();
   const currentDate = new Date().getDate();
   const currentMonth = new Date().getMonth();
+  
+  const cartItems = cart?.items || [];
 
   return (
     <div className="border p-4 rounded-lg col-span-9">
@@ -40,9 +42,13 @@ export const CartItems = () => {
       <hr className="my-4" />
 
       <div>
-        {cart.items.map((item) => (
-          <CartItem key={item.id} cartProduct={item} />
-        ))}
+        {cartItems.length === 0 ? (
+          <p className="text-center text-gray-500 py-8">Savatchangiz bo'sh</p>
+        ) : (
+          cartItems.map((item) => (
+            <CartItem key={item.id} cartProduct={item} />
+          ))
+        )}
       </div>
     </div>
   );

@@ -4,12 +4,14 @@ import { HeartIcon } from "@heroicons/react/24/outline";
 
 export const FavoritesPage = () => {
   const { favorites } = useFavoritesContext();
+  
+  const favoritesList = favorites || [];
 
   return (
     <div className="py-4">
       <h1 className="text-2xl font-semibold mb-6">Saralanganlar</h1>
 
-      {favorites.length === 0 ? (
+      {favoritesList.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20">
           <HeartIcon className="w-20 h-20 text-gray-300 mb-4" />
           <p className="text-gray-500 text-lg">
@@ -21,7 +23,7 @@ export const FavoritesPage = () => {
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {favorites.map((product) => (
+          {favoritesList.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
