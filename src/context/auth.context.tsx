@@ -2,8 +2,19 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import { User, Session } from '@supabase/supabase-js';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
+// Demo admin credentials
+const DEMO_ADMIN = {
+  email: 'admin@uzum.uz',
+  password: 'admin123',
+};
+
+interface DemoUser {
+  id: string;
+  email: string;
+}
+
 interface AuthContextType {
-  user: User | null;
+  user: User | DemoUser | null;
   session: Session | null;
   loading: boolean;
   isConfigured: boolean;
@@ -27,11 +38,19 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | DemoUser | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Check for demo user in localStorage
+    const demoUser = localStorage.getItem('demo_user');
+    if (demoUser) {
+      setUser(JSON.parse(demoUser));
+      setLoading(false);
+      return;
+    }
+
     if (!isSupabaseConfigured || !supabase) {
       setLoading(false);
       return;
@@ -57,8 +76,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const signIn = async (email: string, password: string) => {
+    // Demo login check
+    if (email === DEMO_ADMIN.email && password === DEMO_ADMIN.password) {
+      const demoUser: DemoUser = { id: 'demo-admin', email: DEMO_ADMIN.email };
+      localStorage.setItem('demo_user', JSON.stringify(demoUser));
+      setUser(demoUser);
+      return { error: null };
+    }
+
     if (!supabase) {
-      return { error: new Error('Supabase is not configured') };
+      return { error: new Error('Noto\'g\'ri email yoki parol') };
     }
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -69,7 +96,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signUp = async (email: string, password: string) => {
     if (!supabase) {
-      return { error: new Error('Supabase is not configured') };
+      return { error: new Error('Supabase sozlanmagan. Demo login: admin@uzum.uz / admin123') };
     }
     const { error } = await supabase.auth.signUp({
       email,
@@ -79,15 +106,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const signOut = async () => {
-    if (!supabase) return;
-    await supabase.auth.signOut();
+    // Clear demo user
+    localStorage.removeItem('demo_user');
+    setUser(null);
+    
+    if (supabase) {
+      await supabase.auth.signOut();
+    }
   };
 
   const value = {
     user,
     session,
     loading,
-    isConfigured: isSupabaseConfigured,
+    isConfigured: isSupabaseConfigured || true, // Always true for demo
     signIn,
     signUp,
     signOut,

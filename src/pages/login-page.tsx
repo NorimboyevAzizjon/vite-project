@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../context/auth.context';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { InformationCircleIcon } from '@heroicons/react/24/outline';
 
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -10,7 +10,7 @@ export const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   
-  const { signIn, signUp, isConfigured } = useAuth();
+  const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -18,12 +18,6 @@ export const LoginPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!isConfigured) {
-      toast.error('Supabase sozlanmagan. .env faylini tekshiring.');
-      return;
-    }
-    
     setIsLoading(true);
 
     try {
@@ -32,7 +26,7 @@ export const LoginPage = () => {
         if (error) {
           toast.error(error.message);
         } else {
-          toast.success("Ro'yxatdan o'tish muvaffaqiyatli! Email tasdiqlang.");
+          toast.success("Ro'yxatdan o'tish muvaffaqiyatli!");
         }
       } else {
         const { error } = await signIn(email, password);
@@ -50,6 +44,11 @@ export const LoginPage = () => {
     }
   };
 
+  const handleDemoLogin = () => {
+    setEmail('admin@uzum.uz');
+    setPassword('admin123');
+  };
+
   return (
     <div className="min-h-[70vh] flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -57,15 +56,22 @@ export const LoginPage = () => {
           {isSignUp ? "Ro'yxatdan o'tish" : 'Kirish'}
         </h2>
         
-        {!isConfigured && (
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4 flex items-start gap-3">
-            <ExclamationTriangleIcon className="w-6 h-6 text-yellow-600 flex-shrink-0" />
-            <div className="text-sm text-yellow-800">
-              <p className="font-medium">Supabase sozlanmagan!</p>
-              <p className="mt-1">.env faylida VITE_SUPABASE_URL va VITE_SUPABASE_ANON_KEY ni to'ldiring.</p>
-            </div>
+        {/* Demo login info */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4 flex items-start gap-3">
+          <InformationCircleIcon className="w-6 h-6 text-blue-600 flex-shrink-0" />
+          <div className="text-sm text-blue-800">
+            <p className="font-medium">Demo admin kirish:</p>
+            <p className="mt-1">Email: <code className="bg-blue-100 px-1 rounded">admin@uzum.uz</code></p>
+            <p>Parol: <code className="bg-blue-100 px-1 rounded">admin123</code></p>
+            <button 
+              type="button"
+              onClick={handleDemoLogin}
+              className="mt-2 text-blue-600 hover:underline font-medium"
+            >
+              → Demo ma'lumotlarni to'ldirish
+            </button>
           </div>
-        )}
+        </div>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -101,7 +107,7 @@ export const LoginPage = () => {
           
           <button
             type="submit"
-            disabled={isLoading || !isConfigured}
+            disabled={isLoading}
             className="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? 'Yuklanmoqda...' : isSignUp ? "Ro'yxatdan o'tish" : 'Kirish'}
