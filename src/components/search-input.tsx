@@ -1,11 +1,9 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { useState, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const SearchInput = () => {
   const [inputValue, setInputValue] = useState<string>("");
-  const navigate = useNavigate();
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
