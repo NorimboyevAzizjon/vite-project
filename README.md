@@ -1,11 +1,55 @@
-# React + TypeScript + Vite
+# Vite + React + TypeScript E-commerce
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bu loyiha Supabase bilan integratsiya qilingan e-commerce ilovasi.
 
-Currently, two official plugins are available:
+## Supabase Sozlamalari
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 1. Supabase loyihasi yaratish
+1. [supabase.com](https://supabase.com) ga kiring
+2. Yangi loyiha yarating
+3. Project Settings > API bo'limidan quyidagilarni oling:
+   - Project URL
+   - anon/public key
+
+### 2. Environment Variables
+`.env` faylini tahrirlang:
+```env
+VITE_SUPABASE_URL=your_supabase_url_here
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+```
+
+### 3. Database sozlash
+Supabase Dashboard > SQL Editor da `supabase-schema.sql` faylidagi SQL ni ishga tushiring.
+
+### 4. Authentication sozlash
+Supabase Dashboard > Authentication > Providers:
+- Email provider yoqilgan bo'lishi kerak (default yoqilgan)
+
+## Ishga tushirish
+
+```bash
+npm install
+npm run dev
+```
+
+## Sahifalar
+
+- `/` - Bosh sahifa (mahsulotlar ro'yxati)
+- `/product/:id` - Mahsulot sahifasi
+- `/cart` - Savatcha
+- `/favorites` - Sevimlilar
+- `/login` - Kirish/Ro'yxatdan o'tish
+- `/admin` - Admin panel (faqat login qilganlar uchun)
+- `/success` - Muvaffaqiyatli xarid sahifasi
+
+## Texnologiyalar
+
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
+- Supabase (Auth + Database)
+- React Router v6
 
 ## Expanding the ESLint configuration
 

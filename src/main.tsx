@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { MainLayout } from "./layouts/main-layout";
 import { CartContextProvider } from "./context/cart.context.tsx";
 import { FavoritesContextProvider } from "./context/favorites.context.tsx";
+import { AuthProvider } from "./context/auth.context.tsx";
 import { ToastContainer } from "react-toastify";
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,14 +13,16 @@ import "react-toastify/dist/ReactToastify.css";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-      <CartContextProvider>
-        <FavoritesContextProvider>
-          <MainLayout>
-            <App />
-            <ToastContainer />
-          </MainLayout>
-        </FavoritesContextProvider>
-      </CartContextProvider>
+      <AuthProvider>
+        <CartContextProvider>
+          <FavoritesContextProvider>
+            <MainLayout>
+              <App />
+              <ToastContainer />
+            </MainLayout>
+          </FavoritesContextProvider>
+        </CartContextProvider>
+      </AuthProvider>
     </BrowserRouter>
   </StrictMode>
 );
