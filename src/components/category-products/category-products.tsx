@@ -23,7 +23,7 @@ export const CategoryProducts = ({ link, products, title }: IProps) => {
         {title} {link && <ChevronRightIcon className="w-8" />}
       </Link>
 
-      <div className="mt-3 grid grid-cols-5">
+      <div className="mt-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

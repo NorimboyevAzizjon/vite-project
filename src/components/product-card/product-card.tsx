@@ -44,7 +44,9 @@ export const ProductCard = ({ product }: IProps) => {
       </button>
       <img
         src={productImage}
-        className="rounded-xl hover:rounded-b-none transition"
+        alt={product.title}
+        className="rounded-xl hover:rounded-b-none transition w-full h-[200px] object-cover"
+        loading="lazy"
       />
       <div className="p-2 pt-3">
         <p className="line-clamp-2 text-sm mt-2">{product.description}</p>

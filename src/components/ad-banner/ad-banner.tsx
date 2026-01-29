@@ -21,19 +21,19 @@ export const AdBanner = () => {
       <div className="navigation-wrapper rounded-xl overflow-hidden mt-4">
         <div ref={sliderRef} className="keen-slider">
           <div className="keen-slider__slide number-slide1">
-            <img src="https://images.uzum.uz/crdd3ae0t1lqb8aqevt0/main_page_banner.jpg" />
+            <img src="https://images.uzum.uz/crdd3ae0t1lqb8aqevt0/main_page_banner.jpg" alt="Reklama banneri 1" />
           </div>
           <div className="keen-slider__slide number-slide2">
-            <img src="https://images.uzum.uz/crdd3ae0t1lqb8aqevt0/main_page_banner.jpg" />
+            <img src="https://images.uzum.uz/crdd3ae0t1lqb8aqevt0/main_page_banner.jpg" alt="Reklama banneri 2" />
           </div>
           <div className="keen-slider__slide number-slide3">
-            <img src="https://images.uzum.uz/crdd3ae0t1lqb8aqevt0/main_page_banner.jpg" />
+            <img src="https://images.uzum.uz/crdd3ae0t1lqb8aqevt0/main_page_banner.jpg" alt="Reklama banneri 3" />
           </div>
           <div className="keen-slider__slide number-slide4">
-            <img src="https://images.uzum.uz/crdd3ae0t1lqb8aqevt0/main_page_banner.jpg" />
+            <img src="https://images.uzum.uz/crdd3ae0t1lqb8aqevt0/main_page_banner.jpg" alt="Reklama banneri 4" />
           </div>
           <div className="keen-slider__slide number-slide5">
-            <img src="https://images.uzum.uz/crdd3ae0t1lqb8aqevt0/main_page_banner.jpg" />
+            <img src="https://images.uzum.uz/crdd3ae0t1lqb8aqevt0/main_page_banner.jpg" alt="Reklama banneri 5" />
           </div>
         </div>
         {loaded && instanceRef.current && (
