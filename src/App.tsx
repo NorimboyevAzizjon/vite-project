@@ -6,6 +6,7 @@ import { ProductPage } from "./pages/product-page";
 import { CartPage } from "./pages/cart-page";
 import { FavoritesPage } from "./pages/favorites-page";
 import { CategoryPage } from "./pages/category-page";
+import { OrdersPage } from "./pages/orders-page";
 import AdminPage from "./pages/admin/admin-page";
 import { LoginPage } from "./pages/login-page";
 import { SuccessPage } from "./pages/success-page";
@@ -18,6 +19,7 @@ function App() {
       <Route path="/product/:productId" element={<ProductPage />} />
       <Route path="/categories/:categoryId" element={<CategoryPage />} />
       <Route path="/cart" element={<CartPage />} />
+      <Route path="/orders" element={<OrdersPage />} />
       <Route path="/favorites" element={<FavoritesPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route

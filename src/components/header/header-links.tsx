@@ -22,7 +22,7 @@ export const HeaderLinks = () => {
     <div className="flex gap-2 items-center">
       <HeaderLink
         icon={<ShoppingBagIcon className="w-6 h-6" />}
-        link="/"
+        link="/orders"
         title="Buyurtmalar"
       />
       <div className="flex items-center">
