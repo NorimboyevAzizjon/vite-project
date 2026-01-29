@@ -5,16 +5,30 @@ import { ICategory } from "../../utils/interfaces/product.interface";
 
 export const NavCategories = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchCategories = async () => {
-    const { data } = await fetcher("/categories?limit=100");
-
-    setCategories(data);
+    try {
+      setError(null);
+      const { data } = await fetcher("/categories?limit=100");
+      setCategories(data);
+    } catch (err) {
+      console.error("Kategoriyalarni yuklashda xatolik:", err);
+      setError("Kategoriyalarni yuklab bo'lmadi");
+    }
   };
 
   useEffect(() => {
     fetchCategories();
   }, []);
+
+  if (error) {
+    return (
+      <div className="text-center text-red-500 py-2">
+        {error} - <button onClick={fetchCategories} className="text-purple-600 underline">Qayta urinish</button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex gap-4 overflow-x-scroll scrollbar-hide">

@@ -6,16 +6,40 @@ import { fetcher } from "../api/axios";
 
 export const Homepage = () => {
   const [pupularProducts, setPopularProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchPopularProducts = async () => {
-    const { data } = await fetcher("/products?limit=10&offset=10");
-
-    setPopularProducts(data);
+    try {
+      setLoading(true);
+      setError(null);
+      const { data } = await fetcher("/products?limit=10&offset=10");
+      setPopularProducts(data);
+    } catch (err) {
+      console.error("Mahsulotlarni yuklashda xatolik:", err);
+      setError("Internet bilan bog'lanishda xatolik. Iltimos, ulanishingizni tekshiring.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchPopularProducts();
   }, []);
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] text-center p-4">
+        <p className="text-red-500 text-lg mb-4">{error}</p>
+        <button
+          onClick={fetchPopularProducts}
+          className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700"
+        >
+          Qayta urinish
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div>
       <AdBanner />
