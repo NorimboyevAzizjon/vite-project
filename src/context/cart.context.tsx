@@ -9,6 +9,7 @@ interface ICartContext {
   handleAddToCart: (product: IProduct, quantity: number) => void;
   handleRemoveFromCart: (cartItem: ICartItem) => void;
   modifyCartItem: (cartItem: ICartItem, quantity: number) => void;
+  clearCart: () => void;
   cart: ICart;
 }
 
@@ -122,11 +123,16 @@ export const CartContextProvider = ({ children }: IProps) => {
     }
   };
 
+  const clearCart = () => {
+    setCart(cartInitialValue);
+  };
+
   const value = useMemo(() => {
     return {
       handleAddToCart,
       handleRemoveFromCart,
       modifyCartItem,
+      clearCart,
       cart: cart as ICart,
     };
   }, [cart]);

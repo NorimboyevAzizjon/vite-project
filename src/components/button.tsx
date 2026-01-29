@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 import { cva, VariantProps } from "class-variance-authority";
 
-const buttonVariants = cva("py-3 px-5 rounded-lg", {
+const buttonVariants = cva("py-3 px-5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed", {
   variants: {
     variant: {
       solid: "bg-primary text-white",

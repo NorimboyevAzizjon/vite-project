@@ -16,7 +16,9 @@ export const CartItem = ({ cartProduct }: IProps) => {
   const { handleRemoveFromCart, modifyCartItem } = useCartContext();
 
   useEffect(() => {
-    modifyCartItem(cartProduct, productQuantity);
+    if (productQuantity !== cartProduct.quantity) {
+      modifyCartItem(cartProduct, productQuantity);
+    }
   }, [productQuantity]);
 
   return (
@@ -25,10 +27,10 @@ export const CartItem = ({ cartProduct }: IProps) => {
         <img
           src={cartProduct.images[0]}
           alt={cartProduct.title}
-          className="w-24"
+          className="w-24 h-24 object-cover rounded"
         />
         <div>
-          <p>Tova Kukmara Granit Ultra, olinadigan tutqich bilan</p>
+          <p className="line-clamp-2">{cartProduct.title}</p>
           <ProductQuantityInput
             setValue={setProductQuantity}
             value={productQuantity}

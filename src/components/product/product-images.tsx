@@ -17,11 +17,11 @@ export const ProductImages = ({ product }: IProps) => {
           return (
             <img
               className={twMerge(
-                "cursor-pointer border border-transparent",
+                "cursor-pointer border border-transparent rounded",
                 isActive && "border-gray-600"
               )}
               src={image}
-              alt="product title"
+              alt={`${product.title} - rasm ${index + 1}`}
               key={index}
               onClick={setSelectedImage.bind(null, image)}
             />
@@ -30,8 +30,8 @@ export const ProductImages = ({ product }: IProps) => {
       </div>
       <img
         src={selectedImage}
-        alt="product-title"
-        className="flex-grow col-span-5"
+        alt={product.title}
+        className="flex-grow col-span-5 rounded"
       />
     </div>
   );

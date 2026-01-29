@@ -1,7 +1,15 @@
 import { Link } from 'react-router-dom';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import { useCartContext } from '../context/cart.context';
+import { useEffect } from 'react';
 
 export const SuccessPage = () => {
+  const { clearCart } = useCartContext();
+
+  useEffect(() => {
+    clearCart();
+  }, []);
+
   return (
     <div className="min-h-[70vh] flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg text-center">

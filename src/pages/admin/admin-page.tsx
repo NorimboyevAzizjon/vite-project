@@ -8,6 +8,7 @@ const AdminPage: React.FC = () => {
   const { user, signOut } = useAuth();
   const [products, setProducts] = useState<SupabaseProduct[]>([]);
   const [loading, setLoading] = useState(false);
+  const [fetchLoading, setFetchLoading] = useState(true);
   const [formData, setFormData] = useState({
     title: "",
     price: "",
@@ -16,8 +17,16 @@ const AdminPage: React.FC = () => {
   });
 
   const fetchProducts = async () => {
-    const data = await getProducts();
-    setProducts(data);
+    try {
+      setFetchLoading(true);
+      const data = await getProducts();
+      setProducts(data);
+    } catch (err) {
+      console.error("Mahsulotlarni yuklashda xatolik:", err);
+      toast.error("Mahsulotlarni yuklab bo'lmadi");
+    } finally {
+      setFetchLoading(false);
+    }
   };
 
   useEffect(() => {
