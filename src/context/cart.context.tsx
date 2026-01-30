@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useMemo } from "react";
+import { createContext, ReactNode, useContext } from "react";
 import { IProduct } from "../utils/interfaces/product.interface";
 import { useLocalStorage } from "react-use";
 import { ICart, ICartItem } from "../utils/interfaces/cart.interface";
@@ -13,13 +13,17 @@ interface ICartContext {
   cart: ICart;
 }
 
+const cartInitialValue: ICart = {
+  items: [],
+  totalPrice: 0,
+  totalItems: 0,
+};
+
 const CartContext = createContext<ICartContext | null>(null);
 
 export const useCartContext = () => {
   const context = useContext(CartContext);
-
   if (!context) throw new Error("CartContext must be used in Provider");
-
   return context;
 };
 
@@ -28,114 +32,86 @@ interface IProps {
 }
 
 export const CartContextProvider = ({ children }: IProps) => {
-  const cartInitialValue: ICart = {
-    items: [],
-    totalPrice: 0,
-    totalItems: 0,
-  };
+  const [cart, setCart] = useLocalStorage<ICart>("cart", cartInitialValue);
 
-  const [cart, setCart] = useLocalStorage<ICart | undefined>(
-    "cart",
-    cartInitialValue
-  );
+  const safeCart = cart ?? cartInitialValue;
 
   const handleAddToCart = (product: IProduct, quantity: number) => {
-    if (cart) {
-      const isProductAlreadyInCart = cart.items.some(
-        (p) => p.id === product.id
+    const currentCart = cart ?? cartInitialValue;
+    
+    const existingIndex = currentCart.items.findIndex((p) => p.id === product.id);
+
+    let newItems: ICartItem[];
+    
+    if (existingIndex !== -1) {
+      newItems = currentCart.items.map((item, index) => 
+        index === existingIndex 
+          ? { ...item, quantity: item.quantity + quantity }
+          : item
       );
-
-      toast.success("Mahsulot savatga qo'shildi");
-
-      if (isProductAlreadyInCart) {
-        const updatedCartItems = cart.items.map((cartItem) => {
-          if (cartItem.id === product.id) {
-            return {
-              ...cartItem,
-              quantity: cartItem.quantity + quantity,
-            };
-          } else {
-            return cartItem;
-          }
-        });
-
-        setCart({
-          ...cart,
-          items: updatedCartItems,
-          totalPrice:
-            cart.totalPrice + currencyExchangerNumber(product.price) * quantity,
-        });
-
-        return;
-      }
-
-      const cartItem: ICartItem = {
+    } else {
+      const newItem: ICartItem = {
         id: product.id,
         images: product.images,
         price: currencyExchangerNumber(product.price),
         quantity,
         title: product.title,
       };
-
-      const updatedCart: ICart = {
-        ...cart,
-        items: [...cart.items, cartItem],
-        totalPrice:
-          cart.totalPrice + currencyExchangerNumber(product.price) * quantity,
-      };
-
-      setCart(updatedCart);
+      newItems = [...currentCart.items, newItem];
     }
+
+    const newCart: ICart = {
+      items: newItems,
+      totalPrice: currentCart.totalPrice + currencyExchangerNumber(product.price) * quantity,
+      totalItems: newItems.length,
+    };
+
+    setCart(newCart);
+    toast.success("Mahsulot savatga qo'shildi!");
   };
 
   const handleRemoveFromCart = (cartItem: ICartItem) => {
-    if (cart) {
-      const updatedCart = cart.items.filter((item) => item.id !== cartItem.id);
-
-      setCart({
-        ...cart,
-        items: updatedCart,
-        totalPrice: cart.totalPrice - cartItem.price * cartItem.quantity,
-      });
-    }
+    const currentCart = cart ?? cartInitialValue;
+    const newItems = currentCart.items.filter((item) => item.id !== cartItem.id);
+    
+    setCart({
+      items: newItems,
+      totalPrice: Math.max(0, currentCart.totalPrice - cartItem.price * cartItem.quantity),
+      totalItems: newItems.length,
+    });
+    toast.success("Mahsulot o'chirildi");
   };
 
-  const modifyCartItem = (cartItem: ICartItem, productQuantity: number) => {
-    if (cart) {
-      const updatedCartItems = cart.items.map((item) => {
-        if (item.id === cartItem.id) {
-          return {
-            ...item,
-            quantity: productQuantity,
-          };
-        } else {
-          return item;
-        }
-      });
+  const modifyCartItem = (cartItem: ICartItem, newQuantity: number) => {
+    const currentCart = cart ?? cartInitialValue;
+    const priceDiff = cartItem.price * (newQuantity - cartItem.quantity);
+    
+    const newItems = currentCart.items.map((item) =>
+      item.id === cartItem.id ? { ...item, quantity: newQuantity } : item
+    );
 
-      setCart({
-        ...cart,
-        items: updatedCartItems,
-        totalPrice:
-          cart.totalPrice +
-          cartItem.price * (productQuantity - cartItem.quantity),
-      });
-    }
+    setCart({
+      items: newItems,
+      totalPrice: currentCart.totalPrice + priceDiff,
+      totalItems: newItems.length,
+    });
   };
 
   const clearCart = () => {
     setCart(cartInitialValue);
   };
 
-  const value = useMemo(() => {
-    return {
-      handleAddToCart,
-      handleRemoveFromCart,
-      modifyCartItem,
-      clearCart,
-      cart: cart as ICart,
-    };
-  }, [cart]);
-
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return (
+    <CartContext.Provider
+      value={{
+        handleAddToCart,
+        handleRemoveFromCart,
+        modifyCartItem,
+        clearCart,
+        cart: safeCart,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
 };

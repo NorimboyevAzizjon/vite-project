@@ -3,6 +3,7 @@ import {
   ShoppingBagIcon,
   ShoppingCartIcon,
   UserIcon,
+  HomeIcon,
 } from "@heroicons/react/24/outline";
 import { HeaderLink } from "./header-link";
 import { useCartContext } from "../../context/cart.context";
@@ -20,6 +21,11 @@ export const HeaderLinks = () => {
   
   return (
     <div className="flex gap-2 items-center">
+      <HeaderLink
+        icon={<HomeIcon className="w-6 h-6" />}
+        link="/"
+        title="Bosh sahifa"
+      />
       <HeaderLink
         icon={<ShoppingBagIcon className="w-6 h-6" />}
         link="/orders"

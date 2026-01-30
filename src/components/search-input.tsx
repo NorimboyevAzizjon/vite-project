@@ -15,19 +15,19 @@ export const SearchInput = () => {
   };
 
   return (
-    <form onSubmit={handleSearch} className="border border-gray-300 flex max-w-[507px] w-full rounded-md overflow-hidden">
+    <form onSubmit={handleSearch} className="border border-gray-300 flex max-w-[350px] w-full rounded-md overflow-hidden">
       <input
         type="text"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        placeholder="Mahsulotlarni va turkumlarni izlash"
-        className="px-4 py-2 flex-grow outline-none"
+        placeholder="Mahsulotlarni izlash"
+        className="px-3 py-1.5 flex-grow outline-none text-sm"
       />
       <button 
         type="submit"
-        className="px-5 py-2 bg-primary text-white flex items-center justify-center hover:bg-primary/90 transition-colors"
+        className="px-4 py-1.5 bg-primary text-white flex items-center justify-center hover:bg-primary/90 transition-colors"
       >
-        <MagnifyingGlassIcon className="w-5 h-5" />
+        <MagnifyingGlassIcon className="w-4 h-4" />
       </button>
     </form>
   );
